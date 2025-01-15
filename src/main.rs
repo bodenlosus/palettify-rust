@@ -3,7 +3,7 @@ extern crate regex;
 
 use regex::Regex;
 use image::{ImageBuffer, Rgb, ImageReader};
-use std::{fmt::Debug, fs};
+use std::{fs};
 
 fn main() {
     // Create an 800x600 image with black pixels
@@ -23,7 +23,18 @@ fn main() {
 
     // Save the image to a file
     img.save("output.png").unwrap();
-    read_palette("/home/johannes/Pictures/horizon_theme");
+    let palette = read_palette("/home/johannes/Pictures/horizon_theme");
+}
+
+fn interpolate(color: [u8; 3], palette:Vec<[u8; 3]>){
+    let mut dists: Vec<f32> = Vec::new();
+    for pcolor in palette.iter() {
+        let dr = pcolor[0] - color[0];
+        let dg = pcolor[1] - color[1];
+        let db = pcolor[2] - color[2];
+        let ds = ((dr * dr + dg * dg + db * db)) as f32;
+        dists.push(ds.sqrt());   
+    }
 }
 
 fn read_palette(path: &str) -> Vec<[u8; 3]>{

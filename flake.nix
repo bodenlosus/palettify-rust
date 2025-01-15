@@ -38,6 +38,9 @@
       devShells = forEachSupportedSystem ({ pkgs }: {
         default = pkgs.mkShell {
           packages = with pkgs; [
+            libgcc
+            gfortran
+            gnumake
             rustToolchain
             openssl
             pkg-config
