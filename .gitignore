@@ -21,3 +21,4 @@ target/
 # Cargo root folder
 /.cargo
 
+/out
