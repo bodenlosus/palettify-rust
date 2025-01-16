@@ -203,17 +203,18 @@ fn read_palette(path: &Path) -> Vec<[u8; 3]>{
         Ok(string) => string,
         Err(e) => panic!("Error reading palette: {}", e),
     };
-    let palette: Vec<[u8; 3]> = content
-        .split("\n")
-        .map(|hex_code| parse_hex_str(hex_code).unwrap()) // Here we map each line to the same hex code
+    let palette = content
+        .lines()
+        .filter_map(|hex_code| parse_hex_str(hex_code)) // Parse valid hex codes
         .collect();
+
     return palette;
 }
 
-fn parse_hex_str(str: &str) -> Result<[u8; 3], String> {
+fn parse_hex_str(str: &str) -> Option<[u8; 3]> {
     let pat = Regex::new("^#[0-9a-fA-F]{6}$").unwrap();
     if !pat.is_match(str) {
-        return Err(format!("{} is not a valid hex-color", str));
+        return None;
     }
     let mut color: [u8; 3] = [0, 0, 0];
 
@@ -230,5 +231,5 @@ fn parse_hex_str(str: &str) -> Result<[u8; 3], String> {
         term_color, 
         color::Bg(color::Reset),
     );
-    Ok(color)   // Convert the hex string to a RGB color
+    Some(color)   // Convert the hex string to a RGB color
 }
