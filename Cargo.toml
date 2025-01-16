@@ -6,7 +6,24 @@ publish = false
 edition = "2021"
 
 [dependencies]
+clap = { version = "4.5.26", features = ["derive"] }
 image = "0.25.5"
 regex = "1.11.1"
-ndarray = "0.14"
-ndarray-linalg = { version = "0.16", features = ["openblas-static"] }
+termion = "4.0.3"
+
+[profile.release]
+opt-level = 3
+debug = false
+split-debuginfo = '...'  # Platform-specific.
+strip = "none"
+debug-assertions = false
+overflow-checks = false
+lto = false
+panic = 'unwind'
+incremental = false
+codegen-units = 16
+rpath = false
+
+[profile.release-lto]
+inherits = "release"
+lto = true
