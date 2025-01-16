@@ -1,7 +1,7 @@
 [package]
 name = "palettify"
 version = "0.1.0"
-authors = ["jo <nic.berbiche@gmail.com>"]
+authors = ["jo <johannes.till.schmidt+palettify@outlook.de>"]
 publish = false
 edition = "2021"
 

@@ -21,7 +21,7 @@ pub fn process_image(palette: &Vec<[u8; 3]>, input_path: &Path, output_path: &Pa
     }
 }
 
-fn interpolate(color: [u8; 3], palette: &[[u8; 3]], exponent: i32) -> [u8; 3] {
+pub fn interpolate(color: [u8; 3], palette: &[[u8; 3]], exponent: i32) -> [u8; 3] {
     use std::f32::INFINITY;
     
     match palette.len() {
