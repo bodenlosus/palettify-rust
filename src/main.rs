@@ -6,8 +6,9 @@ extern crate termion;
 use clap::Parser;
 use regex::Regex;
 use image::{ImageReader, Rgb};
-use std::{fs, path::{Path, PathBuf}};
+use std::{fs, path::{Path, PathBuf}, thread::{self, available_parallelism, Thread}, vec};
 use termion::color;
+use std::sync::{Arc, Mutex};
 
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
@@ -80,6 +81,12 @@ fn single_file(palette_path: &Path, input_path: &Path, output_path:&Path, expone
     process_image(&palette, &input_path, &output_path, exponent);
 }
 
+struct ProcessTask {
+    input_path: PathBuf,
+    output_path: PathBuf,
+    exponent: i32,
+}
+
 fn multi_file(palette_path: &Path, input_path: &Path, output_path:&Path, exponent: i32) {
     if !input_path.is_dir() {
         eprintln!("Error: Input file {:?} is not a directory.", input_path);
@@ -98,8 +105,9 @@ fn multi_file(palette_path: &Path, input_path: &Path, output_path:&Path, exponen
         return;
     }
 
-
     let palette = read_palette(palette_path);
+
+    let mut queue: Vec<ProcessTask> = vec![];
 
     for entry in fs::read_dir(input_path).unwrap() {
         match entry {
@@ -113,12 +121,56 @@ fn multi_file(palette_path: &Path, input_path: &Path, output_path:&Path, exponen
                         let new_file_name = format!("palettify-{}", file_name.to_string_lossy());
                         output_file.set_file_name(new_file_name);
                     }
-                    println!("Processing {}...", input_file.display());
-                    process_image(&palette, &input_file, &output_file, exponent);
+                    println!("Added {} to queue", input_file.display());
+                    queue.push(ProcessTask{
+                        input_path: input_file.clone(),
+                        output_path: output_file.clone(),
+                        exponent,
+                    });
                 }
             }
             Err(e) => eprintln!("Error reading directory entry: {}", e),
         }
+    }
+
+    batch_process(queue, palette);
+    
+}
+
+fn worker(queue: Arc<Mutex<Vec<ProcessTask>>>, palette: &Arc<Vec<[u8; 3]>>) {
+    loop {
+        let task = {
+            let mut queue = queue.lock().unwrap(); // Acquire the lock
+            queue.pop() // Pop task from queue
+        };
+
+        if let Some(task) = task {
+            println!("Processing {}...", task.input_path.display());
+            process_image(palette, &task.input_path, &task.output_path, task.exponent);
+        } else {
+            break; // Exit loop if queue is empty
+        }
+    }
+}
+
+fn batch_process(queue: Vec<ProcessTask>, palette: Vec<[u8; 3]>){
+    let thread_count = available_parallelism().ok().unwrap().get();
+    let mut active_threads: Vec<thread::JoinHandle<()>> = Vec::new();
+    let q = Arc::new(Mutex::new(queue));
+    let p = Arc::new(palette);
+
+    for _ in 0..thread_count {
+        let queue_clone = Arc::clone(&q);
+        let palette_clone = Arc::clone(&p);
+        let handle = thread::spawn(move || {
+            worker(queue_clone, &palette_clone);
+        });
+        active_threads.push(handle);
+    }
+
+    // Wait for all threads to finish
+    for handle in active_threads {
+        handle.join();
     }
 }
 
