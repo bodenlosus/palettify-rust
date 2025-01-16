@@ -27,3 +27,7 @@ rpath = false
 [profile.release-lto]
 inherits = "release"
 lto = true
+
+[[bin]]
+name = "palettify"
+path = "src/bin/palettify.rs"
