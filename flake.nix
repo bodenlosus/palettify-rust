@@ -30,9 +30,14 @@
             cargo-edit
             cargo-watch
             rust-analyzer
-          ];
-        
+            clang
+            ffmpeg
+            rustPlatform.bindgenHook
+            llvmPackages.libclang
+        ];
           env = {
+            LIBCLANG_PATH="${pkgs.llvmPackages.libclang.lib}";
+            # BINDGEN_EXTRA_CLANG_ARGS = "-isystem ${pkgs.llvmPackages.libclang.lib}/lib/clang/${pkgs.lib.getVersion pkgs.clang}/include";
             RUST_SRC_PATH = "${rustToolchain}/lib/rustlib/src/rust/library";
           };
         };

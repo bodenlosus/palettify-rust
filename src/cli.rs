@@ -10,7 +10,7 @@ pub struct Cli {
     pub input_path: PathBuf,
     
     /// The output image file path
-    #[arg(short, long, value_name = "OUTPUT", default_value = "o.png", help = "Path to the output image (default: o.png)")]
+    #[arg(short, long, value_name = "OUTPUT", default_value = "o", help = "Path to the output image (default: o)")]
     pub output_path: PathBuf,
     
     /// The palette file path
@@ -23,4 +23,7 @@ pub struct Cli {
     
     #[arg(long, short, action)]
     pub dir: bool,
+
+    #[arg(long, short, action)]
+    pub video: bool,
 }

@@ -22,3 +22,5 @@ target/
 /.cargo
 
 /out
+/*.mp4
+/*.png

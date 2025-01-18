@@ -1,5 +1,5 @@
 use std::{fs, path::{Path, PathBuf}, sync::{Arc, Mutex}, thread};
-use crate::{image_processing, palette};
+use crate::{image_processing, palette::{self, read_palette}, video::process_video};
 
 pub struct ProcessTask {
     pub input_path: PathBuf,
@@ -24,6 +24,20 @@ pub fn single_file(palette_path: &Path, input_path: &Path, output_path: &Path, e
     
     let palette = palette::read_palette(palette_path);
     image_processing::process_image(&palette, input_path, output_path, exponent);
+}
+
+pub fn single_video_file(input_path: &PathBuf, output_path: &PathBuf, palette_path:&PathBuf, exponent: i32) {
+    if !input_path.is_file() {
+        eprintln!("Error: Input file {:?} is not a file.", input_path);
+        return;
+    }
+
+    let palette = read_palette(palette_path);
+    
+    match process_video(input_path, output_path, &palette, exponent) {
+        Ok(_) => println!("Processed video"),
+        Err(e) => eprintln!("Error processing video: {}", e),
+    }
 }
 
 pub fn multi_file(palette_path: &Path, input_path: &Path, output_path: &Path, exponent: i32) {

@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 use clap::Parser;
 use palettify::Cli;
 
@@ -14,6 +16,11 @@ fn main() {
     }
     if !cli.palette_path.is_file() {
         eprintln!("Error: Palette file {:?} is not a file.", cli.palette_path);
+        return;
+    }
+
+    if cli.video {
+        palettify::single_video_file(&cli.input_path, &cli.output_path, &cli.palette_path, cli.exponent);
         return;
     }
 

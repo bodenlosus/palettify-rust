@@ -1,12 +1,23 @@
 use image::{ImageReader, Rgb};
 use std::path::Path;
 
+pub type Image = image::ImageBuffer<Rgb<u8>, Vec<u8>>;
 pub fn process_image(palette: &Vec<[u8; 3]>, input_path: &Path, output_path: &Path, exponent: i32) {
     let dyn_img = match ImageReader::open(input_path) {
         Ok(r) => r,
         Err(e) => panic!("Error opening image: {}", e),
     };
+
     let mut img = dyn_img.decode().unwrap().to_rgb8();
+
+    process(palette, &mut img, exponent);
+
+    match img.save(output_path) {
+        Ok(_) => println!("Image saved as {}", output_path.display()),
+        Err(e) => println!("Error saving image: {}", e),
+    }
+} 
+pub fn process(palette: &Vec<[u8; 3]>, img: &mut Image, exponent: i32) {
     
     for pixel in img.pixels_mut() {
         let r = pixel[0];
@@ -15,10 +26,6 @@ pub fn process_image(palette: &Vec<[u8; 3]>, input_path: &Path, output_path: &Pa
         *pixel = Rgb(interpolate([r, g, b], palette, exponent));
     }
     
-    match img.save(output_path) {
-        Ok(_) => println!("Image saved as {}", output_path.display()),
-        Err(e) => println!("Error saving image: {}", e),
-    }
 }
 
 pub fn interpolate(color: [u8; 3], palette: &[[u8; 3]], exponent: i32) -> [u8; 3] {

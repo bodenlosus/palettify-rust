@@ -2,6 +2,7 @@
 , stdenv
 , rustPlatform
 , glib
+, llvmPackages
 }:
 rustPlatform.buildRustPackage rec {
   pname = "palettify-rust";
@@ -20,6 +21,8 @@ rustPlatform.buildRustPackage rec {
   cargoBuildOptions = [
         "--release-lto"
   ];
+
+  LIBCLANG_PATH="${llvmPackages.libclang}";
 
   meta = with lib; {
     homepage = "";
