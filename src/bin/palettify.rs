@@ -1,4 +1,4 @@
-use std::path::PathBuf;
+use std::time::Instant;
 
 use clap::Parser;
 use palettify::Cli;
@@ -18,15 +18,40 @@ fn main() {
         eprintln!("Error: Palette file {:?} is not a file.", cli.palette_path);
         return;
     }
-
+    
     if cli.video {
-        palettify::single_video_file(&cli.input_path, &cli.output_path, &cli.palette_path, cli.exponent);
+        let elapsed = timed!(
+            palettify::single_video_file(&cli.input_path, &cli.output_path, &cli.palette_path, cli.exponent)
+        );
+        println!("Task took {} seconds", elapsed.as_secs());
         return;
     }
 
     if cli.dir {
-        palettify::multi_file(&cli.palette_path, &cli.input_path, &cli.output_path, cli.exponent);
+        let elapsed = timed!(
+            palettify::multi_file(&cli.palette_path, &cli.input_path, &cli.output_path, cli.exponent)
+        );
+        println!("Task took {} seconds", elapsed.as_secs())
+        
+        
     } else {
-        palettify::single_file(&cli.palette_path, &cli.input_path, &cli.output_path, cli.exponent);
+        let elapsed = timed!(
+        palettify::single_file(&cli.palette_path, &cli.input_path, &cli.output_path, cli.exponent)
+        );
+        println!("Task took {} seconds", elapsed.as_secs())
     }
+}
+
+#[macro_export]
+macro_rules! timed {
+    ( $( $x:expr ),* ) => {
+        {
+            let now = Instant::now();
+            $(
+                $x;
+            )*
+            let elapsed = now.elapsed();
+            elapsed
+        }
+    };
 }

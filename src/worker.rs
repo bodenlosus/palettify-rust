@@ -105,7 +105,7 @@ fn worker(queue: Arc<Mutex<Vec<ProcessTask>>>, palette: &Arc<Vec<[u8; 3]>>) {
 }
 
 fn batch_process(queue: Vec<ProcessTask>, palette: Vec<[u8; 3]>) {
-    let thread_count = thread::available_parallelism().unwrap().get();
+    let thread_count =  thread::available_parallelism().unwrap().get();
     let mut active_threads = Vec::new();
     let q = Arc::new(Mutex::new(queue));
     let p = Arc::new(palette);

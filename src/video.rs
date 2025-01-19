@@ -1,4 +1,4 @@
-use std::{fmt::Result, path::{Path, PathBuf}};
+use std::{fmt::Result, path::PathBuf};
 
 use ndarray::{ArrayBase, OwnedRepr};
 use video_rs::{encode::Settings, Decoder, Encoder, Location, Time};
@@ -50,7 +50,6 @@ pub fn process_video(input_path:&PathBuf, output_path: &PathBuf, palette:&Vec<[u
 
 fn manipulate_frame(frame: &mut Frame, palette: &[[u8; 3]], exponent: i32) {
     let shape = frame.shape();
-    let height = shape[0];
     let width = shape[1];
     
     frame.as_slice_mut().unwrap()
@@ -65,10 +64,3 @@ fn manipulate_frame(frame: &mut Frame, palette: &[[u8; 3]], exponent: i32) {
             }
         });
 }
-
-// fn save_file(frame: &Video, index: usize) -> std::result::Result<(), std::io::Error> {
-//     let mut file = File::create(format!("frame{}.ppm", index))?;
-//     file.write_all(format!("P6\n{} {}\n255\n", frame.width(), frame.height()).as_bytes())?;
-//     file.write_all(frame.data(0))?;
-//     Ok(())
-// }

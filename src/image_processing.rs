@@ -19,12 +19,9 @@ pub fn process_image(palette: &Vec<[u8; 3]>, input_path: &Path, output_path: &Pa
 } 
 pub fn process(palette: &Vec<[u8; 3]>, img: &mut Image, exponent: i32) {
     
-    for pixel in img.pixels_mut() {
-        let r = pixel[0];
-        let g = pixel[1];
-        let b = pixel[2];
-        *pixel = Rgb(interpolate([r, g, b], palette, exponent));
-    }
+    img.pixels_mut().for_each(|pixel | {
+        pixel.0 = interpolate(pixel.0, palette, exponent);
+     });
     
 }
 
