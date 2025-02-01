@@ -1,71 +1,69 @@
-# Sample Rust project with nix Flakes
+# Palettify - CLI-Tool for applying a color palette to an image.
+The tool is written in Rust and works like image quantization, with the huge benefit of creating significantly smoother outputs.
+It currently supports:
+-  Images
+-  Videos
+-  Batch Processing
 
-This is a stub repository to develop using Rust, nix and Flakes.
+##  Installation
+### Manually
+1. Clone the repo and cd into it:
 
-This is aimed to people with basic knowledge of Flakes and moderate knowledge of Nix.
-See the [NixOS Wiki](https://nixos.wiki/wiki/Flakes) for more information about Flakes.
-The relevant sections are `Basic project usage` and `Flake schema`.
+   ```sh
+   git clone https://github.com/bodenlosus/palettify-rust.git
+   cd palettify-rust
+   ```
 
-## Getting started
+3. Build via Cargo
 
-1. Install [direnv](https://github.com/direnv/direnv) on your system by following the instructions
-provided on the project page.  
-  **Important**: you can skip this step if you do not intend to use direnv as it's optional.
+   ```sh
+   cargo build --profile "release"`
+   ```
 
-    `direnv` is a tool that setups your shell with the required environment variables (and tools in
-  the case of Nix) to hack on!
+### Nix
 
-2. Clone the project
+```sh 
+nix shell github:bodenlosus/palettify-rust
+```
 
-    ``` console
-    $ git clone git@github.com:berbiche/sample-flake-rust
-    Cloning into 'sample-flake-rust'...
-    direnv: error .envrc is blocked.
-    ```
+## Palettes
+Palettes are saved in hex files using hexadecimal colors like so:
 
-    If you have `direnv` installed and configured for your shell you will see the following error message:
+```
+#1C1E26
+#232530
+#2E303E
+#6F6F70
+#9DA0A2
+#CBCED0
+#DCDFE4
+#E3E6EE
+#E93C58
+#E58D7D
+#EFB993
+#EFAF8E
+#24A8B4
+#DF5273
+#B072D1
+#E4A382
+```
+There is no limit for the number of colors in a palette
 
-    ```
-    direnv: error /path/sample-flake-rust/.envrc is blocked.
-    Run `direnv allow` to approve its content
-    ```
+## Usage
+For **single images**
 
-3. If you installed `direnv` then allow `direnv` to setup your shell with the required dependencies to develop
+```sh
+palettify -i input.png -o output.png -p palette.txt
+```
 
-    ``` console
-    $ direnv allow
-    direnv: loading /path/sample-flake-rust/.envrc
-    direnv: using flake
-    ```
+For **Videos**:
 
-## Development
+``` sh
+palettify -v -i input.mp4 -o output.mp4 -p palette.txt
+```
 
-Use `nix shell` to spawn a shell with `cargo` and all necessary dependencies.
+For **Directories**:
 
-Within this shell you can use `cargo` commands as you normally would.
-
-If your project requires external dependencies (outside of `crates.io`) then use `nix run '.#my-package'`
-to build and run your project.
-
-## Commands cheatsheet
-
-- `nix shell`: Spawns a shell with all the required development dependencies.
-
-- `nix develop`: Spawns a shell with all the dependencies needed to build the Flake you specify.
-  Defaults to the `defaultPackage` specified in `flake.nix`.
-
-- `nix run`: Builds and runs the package specified. Defaults to the `defaultPackage` specified
-  in `flake.nix`.
-
-  Example: `nix run '.#hello'` will run the package `hello` specified in your `flake.nix`.
-
-- `nix build`: Builds the package specified. Defaults
-
-  Example: `nix build '.#hello'` will build the package `hello` specified in your `flake.nix`.
-  The resulting build will be available at `./result/`
-
-## Howtos
-
-- Q: I build multiple binaries, how do I manage that?
-- A: I don't have the answer yet
-
+```sh
+palettify -d -i input/ -o output/ -p palette.txt
+```
