@@ -1,5 +1,5 @@
-use image::{ImageReader, Rgb};
-use std::path::Path;
+use image::{imageops::resize, ImageReader, Rgb};
+use std::{cmp::min, path::Path};
 
 pub type Image = image::ImageBuffer<Rgb<u8>, Vec<u8>>;
 pub fn process_image(palette: &Vec<[u8; 3]>, input_path: &Path, output_path: &Path, exponent: i32) {
@@ -9,6 +9,12 @@ pub fn process_image(palette: &Vec<[u8; 3]>, input_path: &Path, output_path: &Pa
     };
 
     let mut img = dyn_img.decode().unwrap().to_rgb8();
+    let (width, height) = img.dimensions();
+    let f = 1080.0 / min(width, height) as f32;
+    
+    let nwidth = (width as f32 * f) as u32;
+    let nheight = (height as f32 * f) as u32;
+    resize(&img, nwidth, nheight, image::imageops::FilterType::Triangle);
 
     process(palette, &mut img, exponent);
 
