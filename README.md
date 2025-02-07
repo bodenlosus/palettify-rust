@@ -5,13 +5,10 @@ It currently supports:
 -  Videos
 -  Batch Processing
 ## Examples
-<div>
-<img style="width:33%" src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/palettify-ashim-d-silva-WeYamle9fDM-unsplash.jpg">
-<img style="width:33%" src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/palettify-s9uee41d5ece1.png">
-<img style="width:33%" src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/palettify-shahab-alizadeh-starfall-sd.jpg">
-<img style="width:49%" src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/palettify-aniket-deole-M6XC789HLe8-unsplash.jpg">
-<img style="width:49%" src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/palettify-s-b-vonlanthen-A8iLzX6OddM-unsplash.jpg">
 
+|Catppuccin|Gruvbox|Horizon|Material|Nord|Solarized|Tokyo Night|
+|---|---|---|---|---|---|---|
+| <img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/mocha/palettify-10-12.jpg">
 
 
 ##  Installation
