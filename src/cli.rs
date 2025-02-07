@@ -1,5 +1,5 @@
 // src/cli.rs
-use clap::{builder::PossibleValue, Parser, ValueEnum};
+use clap::Parser;
 use std::path::PathBuf;
 
 use crate::resolution::Resolutions;
