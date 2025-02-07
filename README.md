@@ -1,3 +1,4 @@
+
 # Palettify - CLI-Tool for applying a color palette to an image.
 The tool is written in Rust and works like image quantization, with the huge benefit of creating significantly smoother outputs.
 It currently supports:
@@ -6,9 +7,15 @@ It currently supports:
 -  Batch Processing
 ## Examples
 
-|Catppuccin|Gruvbox|Horizon|Material|Nord|Solarized|Tokyo Night|
-|---|---|---|---|---|---|---|
-| <img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/mocha/palettify-10-12.jpg">
+|tokyo-night-dark|nord|gruvbox-dark-hard|catppuccin-mocha|horizon-dark|material|
+|---|---|---|---|---|---|
+|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/tokyo-night-dark/palettify-s9uee41d5ece1.png">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/nord/palettify-s9uee41d5ece1.png">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/gruvbox-dark-hard/palettify-s9uee41d5ece1.png">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/catppuccin-mocha/palettify-s9uee41d5ece1.png">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/horizon-dark/palettify-s9uee41d5ece1.png">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/material/palettify-s9uee41d5ece1.png">|
+|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/tokyo-night-dark/palettify-moe-wanders-the-rox-to-dueling-peaks-web.jpg">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/nord/palettify-moe-wanders-the-rox-to-dueling-peaks-web.jpg">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/gruvbox-dark-hard/palettify-moe-wanders-the-rox-to-dueling-peaks-web.jpg">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/catppuccin-mocha/palettify-moe-wanders-the-rox-to-dueling-peaks-web.jpg">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/horizon-dark/palettify-moe-wanders-the-rox-to-dueling-peaks-web.jpg">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/material/palettify-moe-wanders-the-rox-to-dueling-peaks-web.jpg">|
+|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/tokyo-night-dark/palettify-shahab-alizadeh-nebula.jpg">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/nord/palettify-shahab-alizadeh-nebula.jpg">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/gruvbox-dark-hard/palettify-shahab-alizadeh-nebula.jpg">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/catppuccin-mocha/palettify-shahab-alizadeh-nebula.jpg">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/horizon-dark/palettify-shahab-alizadeh-nebula.jpg">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/material/palettify-shahab-alizadeh-nebula.jpg">|
+|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/tokyo-night-dark/palettify-10-12.jpg">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/nord/palettify-10-12.jpg">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/gruvbox-dark-hard/palettify-10-12.jpg">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/catppuccin-mocha/palettify-10-12.jpg">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/horizon-dark/palettify-10-12.jpg">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/material/palettify-10-12.jpg">|
+|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/tokyo-night-dark/palettify-ashim-d-silva-WeYamle9fDM-unsplash.jpg">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/nord/palettify-ashim-d-silva-WeYamle9fDM-unsplash.jpg">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/gruvbox-dark-hard/palettify-ashim-d-silva-WeYamle9fDM-unsplash.jpg">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/catppuccin-mocha/palettify-ashim-d-silva-WeYamle9fDM-unsplash.jpg">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/horizon-dark/palettify-ashim-d-silva-WeYamle9fDM-unsplash.jpg">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/material/palettify-ashim-d-silva-WeYamle9fDM-unsplash.jpg">|
+|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/tokyo-night-dark/palettify-s-b-vonlanthen-A8iLzX6OddM-unsplash.jpg">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/nord/palettify-s-b-vonlanthen-A8iLzX6OddM-unsplash.jpg">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/gruvbox-dark-hard/palettify-s-b-vonlanthen-A8iLzX6OddM-unsplash.jpg">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/catppuccin-mocha/palettify-s-b-vonlanthen-A8iLzX6OddM-unsplash.jpg">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/horizon-dark/palettify-s-b-vonlanthen-A8iLzX6OddM-unsplash.jpg">|<img src="https://github.com/bodenlosus/palettify-rust/blob/master/examples/images/material/palettify-s-b-vonlanthen-A8iLzX6OddM-unsplash.jpg">|
+
 
 
 ##  Installation
@@ -73,3 +80,4 @@ For **Directories**:
 ```sh
 palettify -d -i input/ -o output/ -p palette.txt
 ```
+
