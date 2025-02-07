@@ -12,7 +12,9 @@ pub fn process_image(palette: &Vec<[u8; 3]>, input_path: &Path, output_path: &Pa
 
     let mut img: Image = dyn_img.decode().unwrap().to_rgb8();
     
-    img_resize(&mut img, resolution);
+    if let Some(resized_image) = img_resize(&mut img, resolution) {
+        img = resized_image;
+    }
 
     process(palette, &mut img, exponent);
 
@@ -22,22 +24,22 @@ pub fn process_image(palette: &Vec<[u8; 3]>, input_path: &Path, output_path: &Pa
     }
 }
 
-fn img_resize(image: &Image, res: Resolutions) {
+fn img_resize(image: &Image, res: Resolutions) -> Option<Image> {
     if res == Resolutions::NONE {
-        return;
+        return None;
     }
     let res = res as u32;
 
     let (width, height) = image.dimensions();
     let min = min(width, height);
 
-    if min < res { return; }
+    if min < res { return None; }
 
     let f = res as f32 / min as f32;
     
     let nwidth = (width as f32 * f) as u32;
     let nheight = (height as f32 * f) as u32;
-    resize(image, nwidth, nheight, image::imageops::FilterType::Triangle);
+    return Some(resize(image, nwidth, nheight, image::imageops::FilterType::Triangle));
 }
 pub fn process(palette: &Vec<[u8; 3]>, img: &mut Image, exponent: i32) {
     
