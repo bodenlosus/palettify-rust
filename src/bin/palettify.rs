@@ -6,6 +6,8 @@ use palettify::Cli;
 fn main() {
     let cli = Cli::parse();
     
+    println!("Res {:?}", cli.resolution);
+
     if !cli.input_path.exists() {
         eprintln!("Error: Input file {:?} does not exist.", cli.input_path);
         return;
@@ -29,14 +31,14 @@ fn main() {
 
     if cli.dir {
         let elapsed = timed!(
-            palettify::multi_file(&cli.palette_path, &cli.input_path, &cli.output_path, cli.exponent)
+            palettify::multi_file(&cli.palette_path, &cli.input_path, &cli.output_path, cli.exponent, cli.resolution)
         );
         println!("Task took {} seconds", elapsed.as_secs())
         
         
     } else {
         let elapsed = timed!(
-        palettify::single_file(&cli.palette_path, &cli.input_path, &cli.output_path, cli.exponent)
+        palettify::single_file(&cli.palette_path, &cli.input_path, &cli.output_path, cli.exponent, cli.resolution)
         );
         println!("Task took {} seconds", elapsed.as_secs())
     }

@@ -1,13 +1,14 @@
 use std::{fs, path::{Path, PathBuf}, sync::{Arc, Mutex}, thread};
-use crate::{image_processing, palette::{self, read_palette}, video::process_video};
+use crate::{image_processing, palette::{self, read_palette}, resolution::Resolutions, video::process_video};
 
 pub struct ProcessTask {
     pub input_path: PathBuf,
     pub output_path: PathBuf,
     pub exponent: i32,
+    pub res: Resolutions,
 }
 
-pub fn single_file(palette_path: &Path, input_path: &Path, output_path: &Path, exponent: i32) {
+pub fn single_file(palette_path: &Path, input_path: &Path, output_path: &Path, exponent: i32, res: Resolutions) {
     if !input_path.is_file() {
         eprintln!("Error: Input file {:?} is not a file.", input_path);
         return;
@@ -23,7 +24,7 @@ pub fn single_file(palette_path: &Path, input_path: &Path, output_path: &Path, e
     }
     
     let palette = palette::read_palette(palette_path);
-    image_processing::process_image(&palette, input_path, output_path, exponent);
+    image_processing::process_image(&palette, input_path, output_path, exponent, res);
 }
 
 pub fn single_video_file(input_path: &PathBuf, output_path: &PathBuf, palette_path:&PathBuf, exponent: i32) {
@@ -40,7 +41,7 @@ pub fn single_video_file(input_path: &PathBuf, output_path: &PathBuf, palette_pa
     }
 }
 
-pub fn multi_file(palette_path: &Path, input_path: &Path, output_path: &Path, exponent: i32) {
+pub fn multi_file(palette_path: &Path, input_path: &Path, output_path: &Path, exponent: i32, res: Resolutions) {
     if !input_path.is_dir() {
         eprintln!("Error: Input file {:?} is not a directory.", input_path);
         return;
@@ -78,6 +79,7 @@ pub fn multi_file(palette_path: &Path, input_path: &Path, output_path: &Path, ex
                         input_path: input_file.clone(),
                         output_path: output_file.clone(),
                         exponent,
+                        res,
                     });
                 }
             }
@@ -97,7 +99,7 @@ fn worker(queue: Arc<Mutex<Vec<ProcessTask>>>, palette: &Arc<Vec<[u8; 3]>>) {
         
         if let Some(task) = task {
             println!("Processing {}...", task.input_path.display());
-            image_processing::process_image(palette, &task.input_path, &task.output_path, task.exponent);
+            image_processing::process_image(palette, &task.input_path, &task.output_path, task.exponent, task.res);
         } else {
             break;
         }

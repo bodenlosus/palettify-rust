@@ -1,6 +1,8 @@
 // src/cli.rs
-use clap::Parser;
+use clap::{builder::PossibleValue, Parser, ValueEnum};
 use std::path::PathBuf;
+
+use crate::resolution::Resolutions;
 
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
@@ -20,6 +22,9 @@ pub struct Cli {
     /// The exponent value for processing (default: 2)
     #[arg(short, long, value_name = "EXPONENT", default_value_t = 15, help = "Exponent for processing. Bigger Exponent > more quantization (default: 15)")]
     pub exponent: i32,
+
+    #[arg(short, long, value_name = "RESOLUTION", default_value_t = Resolutions::NONE, help = "Rescales the image to the given width")]
+    pub resolution: Resolutions,
     
     #[arg(long, short, action)]
     pub dir: bool,

@@ -1,20 +1,18 @@
 use image::{imageops::resize, ImageReader, Rgb};
 use std::{cmp::min, path::Path};
 
+use crate::resolution::Resolutions;
+
 pub type Image = image::ImageBuffer<Rgb<u8>, Vec<u8>>;
-pub fn process_image(palette: &Vec<[u8; 3]>, input_path: &Path, output_path: &Path, exponent: i32) {
+pub fn process_image(palette: &Vec<[u8; 3]>, input_path: &Path, output_path: &Path, exponent: i32, resolution: Resolutions) {
     let dyn_img = match ImageReader::open(input_path) {
         Ok(r) => r,
         Err(e) => panic!("Error opening image: {}", e),
     };
 
-    let mut img = dyn_img.decode().unwrap().to_rgb8();
-    let (width, height) = img.dimensions();
-    let f = 1080.0 / min(width, height) as f32;
+    let mut img: Image = dyn_img.decode().unwrap().to_rgb8();
     
-    let nwidth = (width as f32 * f) as u32;
-    let nheight = (height as f32 * f) as u32;
-    resize(&img, nwidth, nheight, image::imageops::FilterType::Triangle);
+    img_resize(&mut img, resolution);
 
     process(palette, &mut img, exponent);
 
@@ -22,7 +20,25 @@ pub fn process_image(palette: &Vec<[u8; 3]>, input_path: &Path, output_path: &Pa
         Ok(_) => println!("Image saved as {}", output_path.display()),
         Err(e) => println!("Error saving image: {}", e),
     }
-} 
+}
+
+fn img_resize(image: &Image, res: Resolutions) {
+    if res == Resolutions::NONE {
+        return;
+    }
+    let res = res as u32;
+
+    let (width, height) = image.dimensions();
+    let min = min(width, height);
+
+    if min < res { return; }
+
+    let f = res as f32 / min as f32;
+    
+    let nwidth = (width as f32 * f) as u32;
+    let nheight = (height as f32 * f) as u32;
+    resize(image, nwidth, nheight, image::imageops::FilterType::Triangle);
+}
 pub fn process(palette: &Vec<[u8; 3]>, img: &mut Image, exponent: i32) {
     
     img.pixels_mut().for_each(|pixel | {
