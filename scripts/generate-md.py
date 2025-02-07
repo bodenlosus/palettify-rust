@@ -103,6 +103,23 @@ Palettes are saved in hex files using hexadecimal colors like so:
 There is no limit for the number of colors in a palette
 
 ## Usage
+### General
+```sj
+Usage: palettify [OPTIONS] --input-path <INPUT> --palette-path <PALETTE>
+
+Options:
+  -i, --input-path <INPUT>       Path to the input image
+  -o, --output-path <OUTPUT>     Path to the output image (default: o) [default: o]
+  -p, --palette-path <PALETTE>   Path to the palette file
+  -e, --exponent <EXPONENT>      Exponent for processing. Bigger Exponent > more quantization (default: 15) [default: 15]
+  -r, --resolution <RESOLUTION>  Rescales the image to the given width [default: none] [possible values: none, 480p, 720p, 1080p, 2k, 4k, 8k]
+  -d, --dir                      
+  -v, --video                    
+  -h, --help                     Print help
+  -V, --version                  Print version
+```
+
+### Examples
 For **single images**
 
 ```sh
